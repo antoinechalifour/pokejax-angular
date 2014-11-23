@@ -37,7 +37,7 @@ app.factory('PokemonsFactory', ['$http', function($http){
 	var pokemons = [];
 	var promise = $http({
 		method: 'GET',
-		url: 'http://localhost:3000/api/pokemons'
+		url: '/api/pokemons'
 	})
 	.success(function(data, status){
 		pokemons = data;
