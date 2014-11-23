@@ -1,0 +1,30 @@
+<!doctype html>
+<html ng-app="Pokejax">
+  <head>
+	  <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+	  <link href="assets/css/ripples.min.css" rel="stylesheet">
+	  <link href="assets/css/material-wfont.min.css" rel="stylesheet">
+	  <link href="assets/css/chat.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
+    <style type="text/css">
+		body {
+		  padding-top: 100px;
+		  /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+		} 
+    </style>
+  </head>
+  <body>
+    	<menu></menu>
+		<div ng-view class="container col-lg-offset-1 col-lg-10"></div>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="assets/js/ripples.min.js"></script>
+		<script src="assets/js/material.min.js"></script>
+		<script src="app.js"></script>
+		<script>
+		  $(document).ready(function() {
+		      $.material.init();
+		  });
+		</script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<div class="col-lg-offset-2 col-lg-8">
+	<h1>Résultats de votre recherche</h1>
+	<div class="well">
+		
+		<h2>Par nom</h2>
+		<p class="text-info" ng-show="results.byname.length == 0">
+		    <strong>Mince !</strong> La recherche par nom n'a donné aucun résultat...
+		</p>
+		<table class="table" ng-hide="results.byname.length == 0">
+			<tr>
+				<th>Numéro</th>
+				<th>Image</th>
+				<th>Nom</th>
+				<th>Fiche</th>
+			</tr>
+			<tr ng-repeat="pokemon in results.byname">
+				<td>
+					<p>{{pokemon.num}}</p>
+				</td>
+				<td>
+					<img height="42" width="42" ng-src="http://www.pokebip.com/pokemon/pokedex/images/sugimori/{{pokemon.num | num}}.png" />
+				</td>
+				<td>
+					<p>{{pokemon.nom}}</p>
+				</td>
+				<td>
+					<button class="btn btn-default btn-xs" ng-click="loadFiche(pokemon.num)">Accéder à la fiche</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="well">
+		<h2>Par type</h2>
+		<p class="text-info" ng-show="results.bytype.length == 0">
+		    <strong>Mince !</strong> La recherche par type n'a donné aucun résultat...
+		</p>
+		<table class="table" ng-hide="results.bytype.length == 0">
+			<tr>
+				<th>Numéro</th>
+				<th>Type</th>
+				<th>Image</th>
+				<th>Nom</th>
+				<th>Fiche</th>
+			</tr>
+			<tr ng-repeat="pokemon in results.bytype">
+				<td>
+					<p>{{pokemon.num}}</p>
+				</td>
+				<td>
+					<p>{{pokemon.type}}</p>
+				</td>
+				<td>
+					<img height="42" width="42" ng-src="http://www.pokebip.com/pokemon/pokedex/images/sugimori/{{pokemon.num | num}}.png" />
+				</td>
+				<td>
+					<p>{{pokemon.nom}}</p>
+				</td>
+				<td>
+					<button class="btn btn-default btn-xs" ng-click="loadFiche(pokemon.num)">Accéder à la fiche</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="well">
+		<h2>Par attaques</h2>
+		<p class="text-info" ng-show="results.byattaques.length == 0">
+		    <strong>Mince !</strong> La recherche par attaques n'a donné aucun résultat...
+		</p>
+		<table class="table" ng-hide="results.byattaques.length == 0">
+			<tr>
+				<th>Numéro</th>
+				<th>Attaque(s)</th>
+				<th>Image</th>
+				<th>Nom</th>
+				<th>Fiche</th>
+			</tr>
+			<tr ng-repeat="pokemon in results.byattaques">
+				<td>
+					<p>{{pokemon.num}}</p>
+				</td>
+				<td>
+					<ul class="list-unstyled">
+						<li ng-repeat="attaque in pokemon.attaques">{{attaque.nom}}</li>
+					</ul>
+				</td>
+				<td>
+					<img height="42" width="42" ng-src="http://www.pokebip.com/pokemon/pokedex/images/sugimori/{{pokemon.num | num}}.png" />
+				</td>
+				<td>
+					<p>{{pokemon.nom}}</p>
+				</td>
+				<td>
+					<button class="btn btn-default btn-xs" ng-click="loadFiche(pokemon.num)">Accéder à la fiche</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

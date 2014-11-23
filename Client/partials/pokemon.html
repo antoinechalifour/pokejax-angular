@@ -1,0 +1,71 @@
+<div class="row">
+	<div class="col-lg-8">
+		<div class="jumbotron">
+		    <h1>{{pokemon.numero}} - {{pokemon.nom}}</h1>
+		    <div class="row">
+				<div class="col-lg-4">
+					<img ng-src="http://www.pokebip.com/pokemon/pokedex/images/sugimori/{{pokemon.numero | num}}.png" />
+				</div>
+				<div class="col-lg-8">
+					<p>Nom [EN] : {{pokemon.nomen}}</p>
+					<p>Nom [JA] : {{pokemon.nomja}}</p>
+					<p>Nom [DE] : {{pokemon.nomde}}</p>
+				</div>
+		    </div>
+		</div>
+
+		<div class="well">
+			<table class="table">
+				<tr>
+					<th>Attaque</th>
+					<th>Puissance</th>
+					<th>Précision</th>
+					<th>PP</th>
+				</tr>
+				<tr ng-repeat="attaque in pokemon.attaques">
+					<td>{{attaque.nom}}</td>
+					<td>{{attaque.puissance}}</td>
+					<td>{{attaque.precision}}</td>
+					<td>{{attaque.pp}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="col-lg-4 well">
+		<h2>Chat</h2>
+		<p>Il y a actuellement {{nbusers}} utilisateurs lisant cette fiche.</p>
+		<div class="panel panel-primary">
+		    <div class="panel-heading">
+		        <h3 class="panel-title">Discutez de {{pokemon.nom}}</h3>
+		    </div>
+		    <div class="panel-body">
+		        <ul class="list-unstyled">
+					<li ng-repeat="message in messages">
+						<div class="row">
+							<div class="col-lg-10">
+								<p class="text-primary">Un {{message.from}} dit :</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-lg-10">
+								{{message.message}}
+							</div>
+						</div>
+						<hr>
+					</li>
+				</ul>
+		    </div>
+		</div>
+		<div class="row">
+			<form ng-submit="sendMessage()">
+				<div class="form-group col-lg-8">
+					<input type="text" class="form-control" placeholder="Votre message..." ng-model="message" required />
+				</div>
+				<div class="form-group col-lg-4">
+					<input type="submit" class="btn btn-primary" value=">>" />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
