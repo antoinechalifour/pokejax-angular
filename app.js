@@ -215,15 +215,18 @@ function handleConnexion(ws){
 	});
 
 	//Socket fermé
-	ws.on('close', function(ws){
+	ws.on('close', function(){
 		logger.info('[onClose] > Client déconnecté');
 		//On cherche pour toutes les chatrooms l'id du socket et on la supprime
-		chatrooms.forEach(function(chatroom){
-			var i = chatroom.indexOf(ws, 1);
+		chatrooms.forEach(function(chatroom, index){
+			var i = chatroom.indexOf(ws);
 			if(i >= 0) {
 				chatroom.splice(i, 1);
-				majUser(chatroom);
 			}
+		});
+
+		chatrooms.forEach(function(chatroom){
+			majUser(chatroom);
 		});
 	});
 }
