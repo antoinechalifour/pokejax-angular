@@ -13,6 +13,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var logger = require('winston');
+var fs = require('fs');
+var markdown = require("markdown-js");
 
 var natures = require('./natures.json')
 logger.info('[Configuration] > Import et tri du pokedex...');
@@ -145,6 +147,12 @@ app.get('/api/pokemons/search/:searchstring', function(req, res){
 		res.status(404).send(JSON.stringify({"msg" : "Aucun pokémon trouvé"}));
 	}
 	
+});
+
+app.get('/api/compterendu', function(req, res){
+	var compterendumd = fs.readFileSync("Client/assets/compterendu.md", "utf8");
+
+	res.status(200).send(markdown.makeHtml(compterendumd));
 });
 
 // catch 404 and forward to error handler

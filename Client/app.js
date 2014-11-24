@@ -21,7 +21,8 @@ app.config(['$routeProvider', function($routeProvider) {
 	    controller: 'searchCtrl'
 	});
 	$routeProvider.when('/compterendu/', {
-	    templateUrl: 'partials/compterendu.html'
+	    templateUrl: 'partials/compterendu.html',
+	    controller: 'compterenduCtrl'
 	});
 	$routeProvider.otherwise({redirectTo: '/pokedex/'});
 }]);
@@ -72,6 +73,30 @@ app.factory('PokemonsFactory', ['$http', function($http){
 	}
 }]);
 
+app.factory('CompterenduFactory', ['$http', function($http){
+	var compterendu = "";
+
+	var promise = $http({
+		method: 'GET',
+		url: '/api/compterendu'
+	})
+	.success(function(data, status){
+		compterendu = data;
+	})
+	.error(function(data, status){
+		console.log('error');
+	});
+
+	return {
+		getCompterendu : function(){
+			return compterendu;
+		},
+
+		getPromise: function(){
+			return promise;
+		}
+	}
+}]);
 //////////////////////////////////////////////
 // Controller permettant la gestion du menu //
 //////////////////////////////////////////////
@@ -84,6 +109,7 @@ app.controller('menuCtrl', ['$scope', '$location', function($scope, $location){
 		return $scope.tab == atab;
 	}
 	$scope.setTab = function(atab){
+		$scope.searchfield = "";
 		$scope.tab = atab;
 	}
 
@@ -238,4 +264,12 @@ app.controller('searchCtrl', ['$scope', '$http', '$routeParams', '$location', fu
 		var intnum = parseInt(num);
 		$location.path('/pokemon/' + num);
 	}
+}]);
+
+app.controller('compterenduCtrl', ['$scope', 'CompterenduFactory', function($scope, CompterenduFactory){
+	$scope.compterendu = "";
+	CompterenduFactory.getPromise()
+	.then(function(data, status){
+		$scope.compterendu = data.data;
+	});
 }]);
