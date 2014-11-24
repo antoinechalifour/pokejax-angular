@@ -128,6 +128,7 @@ app.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scop
 	$scope.nbusers = 0;
 	$scope.messages = [];
 	var ws = null;
+	var clientname = null;
 
 	//////////////////////////////////
 	// Charger le pokemon courrant //
@@ -152,7 +153,6 @@ app.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scop
 		console.log("> Creation du websocket")
 		console.log("ws://" + location.host + "/");
 		ws = new WebSocket("ws://" + location.host + "/");
-		var clientname = null;
 
 		ws.onmessage = function (event) {
 			var data = JSON.parse(event.data);
