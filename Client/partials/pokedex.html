@@ -1,4 +1,8 @@
-<div class="jumbotron col-lg-offset-2 col-lg-8">
+<div class="row text-center" ng-show="loading">
+	<img src="assets/img/loader.gif" width="100px" height="100px">
+</div>
+
+<div class="jumbotron col-lg-offset-2 col-lg-8" ng-hide="loading">
     <h1>Pokedex</h1>
     <table class="table">
 		<tr>

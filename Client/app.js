@@ -1,5 +1,12 @@
+//////////////////////////////////////////////////////////////
+// Toutes l'application front-end est gérée dans ce fichier //
+//////////////////////////////////////////////////////////////
+
 var app = angular.module("Pokejax", []);
 
+///////////////////////////////////////////////////////////////
+//Configration des routes et des vues / controllers associés //
+///////////////////////////////////////////////////////////////
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/pokedex/', {
 	    templateUrl: 'partials/pokedex.html',
@@ -19,12 +26,18 @@ app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.otherwise({redirectTo: '/pokedex/'});
 }]);
 
+////////////////////////////////////////////////////////////
+// Création d'un filtre pour convertir les strings en int //
+////////////////////////////////////////////////////////////
 app.filter('num', function() {
     return function(input) {
       return parseInt(input, 10);
     }
 });
 
+///////////////////////////////////////////////////////////////////////////
+// Création de l'élément <menu></menu> et de la vue / controller associé //
+///////////////////////////////////////////////////////////////////////////
 app.directive('menu', [function(){
 	return {
 		restrict: 'E',
@@ -33,6 +46,9 @@ app.directive('menu', [function(){
 	};
 }]);
 
+///////////////////////////////////////////////
+//Factory permettant la gestion des pokémons //
+///////////////////////////////////////////////
 app.factory('PokemonsFactory', ['$http', function($http){
 	var pokemons = [];
 	var promise = $http({
@@ -56,6 +72,9 @@ app.factory('PokemonsFactory', ['$http', function($http){
 	}
 }]);
 
+//////////////////////////////////////////////
+// Controller permettant la gestion du menu //
+//////////////////////////////////////////////
 app.controller('menuCtrl', ['$scope', '$location', function($scope, $location){
 	console.log("Controlleur menu");
 
@@ -78,25 +97,37 @@ app.controller('menuCtrl', ['$scope', '$location', function($scope, $location){
 	}
 }]);
 
+/////////////////////////////////////////////////
+// Controller permettant la gestion du pokedex //
+/////////////////////////////////////////////////
 app.controller('pokedexCtrl', ['$scope', '$http', '$location', 'PokemonsFactory', function($scope, $http, $location, PokemonsFactory){
 	console.log('Pokedex controller');
+	$scope.loading = true;
 	PokemonsFactory.getPromise()
 	.then(function(){
-		$scope.pokemons = PokemonsFactory.getPokemons();	
+		$scope.pokemons = PokemonsFactory.getPokemons();
+		$scope.loading = false;	
 
 		$scope.loadFiche = function(num){
 			var intnum = parseInt(num);
 			$location.path('/pokemon/' + num);
 		}
+	}, function(){
+		$scope.loading = false;
 	});
 }]);
 
+///////////////////////////////////////////////////////////////
+// Controller permettant la gestion de la fiche d'un pokémon //
+///////////////////////////////////////////////////////////////
 app.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
 	console.log("Pokemon controller")
 	$scope.currentpokemon=parseInt($routeParams.numero);
+	$scope.loading = true;
 	$scope.pokemon = {};
 	$scope.nbusers = 0;
 	$scope.messages = [];
+	var ws = null;
 
 	//////////////////////////////////
 	// Charger le pokemon courrant //
@@ -107,54 +138,57 @@ app.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scop
 	})
 	.success(function(data, status){
 		$scope.pokemon = data;
+		$scope.loading = false;
 	})
 	.error(function(data, status){
+		//$scope.loading = false;
 		console.log('ko');
+		$scope.loading = false;
+	})
+	.then(function(data, status){
+		////////////////////////////
+		// Gestion du web socket //
+		////////////////////////////
+		console.log("> Creation du websocket")
+		console.log("ws://" + location.host + "/");
+		ws = new WebSocket("ws://" + location.host + "/");
+		var clientname = null;
+
+		ws.onmessage = function (event) {
+			var data = JSON.parse(event.data);
+			var type = data.type;
+			switch(type){
+				/////////////////////////////////////////////////////////////////
+				// Initialiser et indiquer au serveur quel pokemon on suit  //
+				/////////////////////////////////////////////////////////////////
+				case 'init':
+					clientname = data.clientname;
+					console.log('> Envoi du pokemon suivi par ' + clientname);
+					ws.send(JSON.stringify({
+						type: 'init',
+						pokemon: $scope.currentpokemon
+					}));
+					break;
+
+				///////////////////////////////////////////////////////////
+				// Mise a jour du nb d'utilisateur regardant la fiche //
+				///////////////////////////////////////////////////////////
+				case 'majuser':
+					console.log("> Mis a jour du nombre d'utilisateurs " + data.newnb);
+					newnb = data.newnb;
+					$scope.nbusers = newnb;
+					$scope.$apply();
+					break;
+
+				case 'message':
+					console.log("> Nouveau message reçu : " + data.message);
+					$scope.messages.unshift(data)
+					$scope.$apply();
+					break
+				default: console.log(data);
+			}
+		};
 	});
-
-	////////////////////////////
-	// Gestion du web socket //
-	////////////////////////////
-	console.log("> Creation du websocket")
-	console.log("ws://" + location.host + "/");
-	var ws = new WebSocket("ws://" + location.host + "/");
-	var clientname = null;
-
-	ws.onmessage = function (event) {
-		var data = JSON.parse(event.data);
-		var type = data.type;
-		switch(type){
-			/////////////////////////////////////////////////////////////////
-			// Initialiser et indiquer au serveur quel pokemon on suit  //
-			/////////////////////////////////////////////////////////////////
-			case 'init':
-				clientname = data.clientname;
-				console.log('> Envoi du pokemon suivi par ' + clientname);
-				ws.send(JSON.stringify({
-					type: 'init',
-					pokemon: $scope.currentpokemon
-				}));
-				break;
-
-			///////////////////////////////////////////////////////////
-			// Mise a jour du nb d'utilisateur regardant la fiche //
-			///////////////////////////////////////////////////////////
-			case 'majuser':
-				console.log("> Mis a jour du nombre d'utilisateurs " + data.newnb);
-				newnb = data.newnb;
-				$scope.nbusers = newnb;
-				$scope.$apply();
-				break;
-
-			case 'message':
-				console.log("> Nouveau message reçu : " + data.message);
-				$scope.messages.unshift(data)
-				$scope.$apply();
-				break
-			default: console.log(data);
-		}
-	};
-
 
 
 	$scope.sendMessage = function(){
@@ -177,8 +211,12 @@ app.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scop
 	});
 }]);
 
+///////////////////////////////////////
+// Controller associé à la recherche //
+///////////////////////////////////////
 app.controller('searchCtrl', ['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
 	var searchstring = $routeParams.searchstring;
+	$scope.loading = true;
 
 	$scope.results = {};
 	$http({
@@ -187,11 +225,13 @@ app.controller('searchCtrl', ['$scope', '$http', '$routeParams', '$location', fu
 	})
 	.success(function(data, status){
 		$scope.results = data;
+		$scope.loading = false;
 	})
 	.error(function(data, status){
 		$scope.results.byname = [];
 		$scope.results.bytype = [];
 		$scope.results.byattaques = [];
+		$scope.loading = false;
 	});
 
 	$scope.loadFiche = function(num){

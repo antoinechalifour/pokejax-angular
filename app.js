@@ -257,7 +257,6 @@ function handleMessage(data){
 function handleLeaving(ws, data){
 	logger.info('> Un client a quitté la room ' + pokedex[data.pokemon - 1].nom);
 	var i = chatrooms[data.pokemon - 1].indexOf(ws);
-	console.log(i);
 	if(i >= 0) {
 		chatrooms[data.pokemon - 1].splice(i, 1);
 		majUser(chatrooms[data.pokemon - 1]);
