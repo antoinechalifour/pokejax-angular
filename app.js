@@ -20,9 +20,17 @@ var natures = require('./natures.json')
 logger.info('[Configuration] > Import et tri du pokedex...');
 var pokedex = require('./pokedex.json');
 pokedex.sort(function(a, b){
-	return (parseInt(a.numéro) < parseInt(b.numéro)) ? -1 : 1;
+	return (parseInt(a.numero) < parseInt(b.numero)) ? -1 : 1;
 });
-;
+
+//Nous sommes obligés de redéfinir la fonctions puisque quelques pokémons sont manquant et nous avons donc des trous dans le pokédex...
+pokedex.getPokemon = function(numero){
+	return pokedex.filter(function(pokemon){
+		if(parseInt(pokemon.numero) == numero) return true;
+		else
+			return false;
+	})[0];
+};
 
 ///////////////////////////////
 // Configuration  du serveur //
@@ -194,10 +202,20 @@ function handleConnexion(ws){
 	logger.info('> Nouvelle connexion ' + ws.connectionID);
 
 	//Génération d'un nom d'utilisateur
-	var randomPokemon = Math.floor(Math.random() * (pokedex.length-1));
-	var randomNature = Math.floor(Math.random() * (natures.length-1));
-	var clientname = pokedex[randomPokemon].nom + " " + natures[randomNature];
-
+	var again = true;
+	var clientname = "";
+	while(again){
+		try{
+			var randomPokemon = Math.floor(Math.random() * (pokedex.length-1));
+			var randomNature = Math.floor(Math.random() * (natures.length-1));
+			clientname = pokedex.getPokemon(randomPokemon).nom + " " + natures[randomNature]; // pas sur de marcher a cause des trous du pokedex
+			again = false;
+		}
+		catch(err){
+			again = true;
+		}
+	}
+	
 	//On envoie l'identifiant à la personne
 	//On lui demande le pokémon qu'elle consulte
 	var data = {
@@ -240,7 +258,8 @@ function handleConnexion(ws){
 }
 
 function handleInit(ws, data){
-	logger.info('[handleInit] > Un utilisateur suit le pokemon ' + pokedex[data.pokemon - 1].nom);
+	console.log(data.pokemon);
+	logger.info('[handleInit] > Un utilisateur suit le pokemon ' + pokedex.getPokemon(data.pokemon ).nom);
 	// Si l'utilisateur donne un pokémon
 	var chatroom = chatrooms[data.pokemon - 1];
 
@@ -266,7 +285,7 @@ function handleMessage(data){
 }
 
 function handleLeaving(ws, data){
-	logger.info('> Un client a quitté la room ' + pokedex[data.pokemon - 1].nom);
+	logger.info('> Un client a quitté la room ' + pokedex.getPokemon(data.pokemon).nom);
 	var i = chatrooms[data.pokemon - 1].indexOf(ws);
 	if(i >= 0) {
 		chatrooms[data.pokemon - 1].splice(i, 1);
