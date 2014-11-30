@@ -78,7 +78,7 @@ app.factory('CompterenduFactory', ['$http', function($http){
 
 	var promise = $http({
 		method: 'GET',
-		url: '/api/compterendu'
+		url: '/api/compterendu/'
 	})
 	.success(function(data, status){
 		compterendu = data;
