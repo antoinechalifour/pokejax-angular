@@ -178,7 +178,8 @@ app.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scop
 		////////////////////////////
 		console.log("> Creation du websocket")
 		console.log("wss://" + location.host + "/");
-		ws = new WebSocket("ws://" + location.host + "/");
+		var protocol = (location.protocol == 'https:') ? 'wss://' : 'ws://';
+		ws = new WebSocket(protocol + location.host + "/");
 
 		ws.onmessage = function (event) {
 			var data = JSON.parse(event.data);
