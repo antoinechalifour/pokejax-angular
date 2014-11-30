@@ -202,7 +202,7 @@ function handleConnexion(ws){
 	logger.info('> Nouvelle connexion ' + ws.connectionID);
 
 	//Génération d'un nom d'utilisateur
-	var again = false;
+	var again = true;
 	var clientname = "";
 	while(again){
 		try{
