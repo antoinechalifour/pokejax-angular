@@ -6,6 +6,7 @@ angular.module("Pokejax")
 .controller('menuCtrl', ['$scope', '$location', function($scope, $location){
 	console.log("Controlleur menu");
 
+	$scope.type = 'default';
 	$scope.tab = 1;
 	$scope.searchfield = "";
 	$scope.isSet = function(atab){
@@ -24,6 +25,14 @@ angular.module("Pokejax")
 			$location.path('/search/' + $scope.searchfield);
 		}
 	}
+
+	$scope.isType = function(type){
+		return (type === $scope.type);
+	}
+
+	$scope.$on('typechanged', function(event, data){
+		$scope.type = data;
+	});
 }])
 
 /////////////////////////////////////////////////
@@ -49,7 +58,7 @@ angular.module("Pokejax")
 ///////////////////////////////////////////////////////////////
 // Controller permettant la gestion de la fiche d'un pokémon //
 ///////////////////////////////////////////////////////////////
-.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http){
+.controller('pokemonCtrl', ['$scope', '$routeParams', '$http', '$rootScope', function($scope, $routeParams, $http, $rootScope){
 	console.log("Pokemon controller")
 	$scope.currentpokemon=parseInt($routeParams.numero);
 	$scope.loading = true;
@@ -71,9 +80,9 @@ angular.module("Pokejax")
 		url: '/api/pokemons/' + $scope.currentpokemon
 	})
 	.success(function(data, status){
-		console.log(data);
 		$scope.pokemon = data;
 		$scope.loading = false;
+		$rootScope.$broadcast('typechanged', data.types[0]);
 	})
 	.error(function(data, status){
 		//$scope.loading = false;
@@ -138,6 +147,7 @@ angular.module("Pokejax")
 	};
 
 	$scope.$on('$destroy', function(){
+		$rootScope.$broadcast('typechanged', 'default');
 		console.log("Leaving room");
 		ws.send(JSON.stringify({
 			type: 'leaving',

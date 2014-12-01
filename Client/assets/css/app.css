@@ -3,9 +3,9 @@
 }
 
 .pokemon-header {
-	color: white;
+	color: #7a7a7a;
 	margin-bottom: 50px;
-	text-shadow: 4px 4px 2px rgba(150, 150, 150, 0.8);
+	text-shadow: 4px 4px 2px rgba(150, 150, 150, 0.2);
 }
 
 .pokemon-header h1 {
@@ -14,6 +14,70 @@
 
 .pokemon-header p {
 	font-size: 2em;
+}
+
+h3.panel-title {
+	color: white;
+}
+
+.menufeu, .panel>.menufeu{
+	background-color: #F44336;
+}
+
+.menueau, .panel>.menueau {
+	background-color: #2196F3;
+}
+
+.menuplante, .panel>.menuplante {
+	background-color: #4CAF50;
+}
+
+.menupoison, .panel>.menupoison {
+	background-color: #9C27B0;
+}
+
+.menuinsecte, .panel>.menuinsecte {
+	background-color: #8BC34A;
+}
+
+.menuvol, .panel>.menuvol {
+
+}
+
+.menunormal, .panel>.menunormal {
+	background-color: #E91E63;
+}
+
+.menuelectrique, .panel>.menuelectrique {
+	background-color: #FFC107;
+}
+
+.menusol, .panel>.menusol {
+	background-color: #8D6E63;
+}
+
+.menucombat, .panel>.menucombat {
+	background-color: #C62828;
+}
+
+.menupsy, .panel>.menupsy {
+	background-color: #C2185B;
+}
+
+.menuroche, .panel>.menuroche {
+	background-color: #795548;
+}
+
+.menuspectre, .panel>.menuspectre {
+	background-color: #673AB7;
+}
+
+.menudragon, .panel>.menudragon {
+	background-color: #3F51B5;
+}
+
+.menuglace, .panel>.menuglace {
+	background-color: #03A9F4;
 }
 
 .type {

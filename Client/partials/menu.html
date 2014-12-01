@@ -1,4 +1,21 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-fixed-top" role="navigation" ng-class="{
+    'navbar-inverse': isType('default'),
+    menufeu: isType('Feu'),
+    menueau: isType('Eau'),
+    menuplante: isType('Plante'),
+    menupoison: isType('Poison'),
+    menuinsecte: isType('Insecte'),
+    menuvol: isType('Vol'),
+    menunormal: isType('Normal'),
+    menuelectrique: isType('Électrique'),
+    menucombat: isType('Combat'),
+    menupsy: isType('Psy'),
+    menusol: isType('Sol'),
+    menuroche: isType('Roche'),
+    menuspectre: isType('Spectre'),
+    menudragon: isType('Dragon'),
+    menuglace: isType('Glace')
+}">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">

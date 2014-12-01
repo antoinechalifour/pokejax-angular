@@ -1,21 +1,3 @@
-<div class="type" ng-class="{
-	typefeu: checkType('Feu'),
-	typeeau: checkType('Eau'),
-	typeplante: checkType('Plante'),
-	typepoison: checkType('Poison'),
-	typeinsecte: checkType('Insecte'),
-	typevol: checkType('Vol'),
-	typenormal: checkType('Normal'),
-	typeelectrique: checkType('Électrique'),
-	typecombat: checkType('Combat'),
-	typepsy: checkType('Psy'),
-	typesol: checkType('Sol'),
-	typeroche: checkType('Roche'),
-	typespectre: checkType('Spectre'),
-	typedragon: checkType('Dragon'),
-	typeglace: checkType('Glace')
-}"></div>
-
 <div class="container">
 	<div class="row text-center" ng-show="loading">
 		<img src="assets/img/loader.gif" width="100px" height="100px">
@@ -41,8 +23,24 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-8">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
+				<div class="panel">
+					<div class="panel-heading" ng-class="{
+	menufeu: checkType('Feu'),
+	menueau: checkType('Eau'),
+	menuplante: checkType('Plante'),
+	menupoison: checkType('Poison'),
+	menuinsecte: checkType('Insecte'),
+	menuvol: checkType('Vol'),
+	menunormal: checkType('Normal'),
+	menuelectrique: checkType('Électrique'),
+	menucombat: checkType('Combat'),
+	menupsy: checkType('Psy'),
+	menusol: checkType('Sol'),
+	menuroche: checkType('Roche'),
+	menuspectre: checkType('Spectre'),
+	menudragon: checkType('Dragon'),
+	menuglace: checkType('Glace')
+}">
 						<h3 class="panel-title">Liste des attaques</h3>
 					</div>
 					<div class="panel-body">
@@ -65,8 +63,24 @@
 			</div>
 
 			<div class="col-lg-4">
-				<div class="panel panel-primary">
-					<div class="panel-heading">
+				<div class="panel">
+					<div class="panel-heading" ng-class="{
+						menufeu: checkType('Feu'),
+						menueau: checkType('Eau'),
+						menuplante: checkType('Plante'),
+						menupoison: checkType('Poison'),
+						menuinsecte: checkType('Insecte'),
+						menuvol: checkType('Vol'),
+						menunormal: checkType('Normal'),
+						menuelectrique: checkType('Électrique'),
+						menucombat: checkType('Combat'),
+						menupsy: checkType('Psy'),
+						menusol: checkType('Sol'),
+						menuroche: checkType('Roche'),
+						menuspectre: checkType('Spectre'),
+						menudragon: checkType('Dragon'),
+						menuglace: checkType('Glace')
+					}">
 						<h3 class="panel-title">Informations générales</h3>
 					</div>
 					<div class="panel-body">
@@ -101,23 +115,30 @@
 			<div class="col-lg-offset-2 col-lg-8">
 				<h2>Chat</h2>
 				<p>Il y a actuellement {{nbusers}} utilisateurs lisant cette fiche.</p>
-				<div class="panel panel-primary">
-				    <div class="panel-heading">
+				<div class="panel">
+				    <div class="panel-heading" ng-class="{
+						menufeu: checkType('Feu'),
+						menueau: checkType('Eau'),
+						menuplante: checkType('Plante'),
+						menupoison: checkType('Poison'),
+						menuinsecte: checkType('Insecte'),
+						menuvol: checkType('Vol'),
+						menunormal: checkType('Normal'),
+						menuelectrique: checkType('Électrique'),
+						menucombat: checkType('Combat'),
+						menupsy: checkType('Psy'),
+						menusol: checkType('Sol'),
+						menuroche: checkType('Roche'),
+						menuspectre: checkType('Spectre'),
+						menudragon: checkType('Dragon'),
+						menuglace: checkType('Glace')
+					}">
 				        <h3 class="panel-title">Discutez de {{pokemon.nom}}</h3>
 				    </div>
 				    <div class="panel-body chatbox">
 				        <ul class="list-unstyled">
 							<li ng-repeat="message in messages">
-								<div class="row">
-									<div class="col-lg-10">
-										<p class="text-primary">Un {{message.from}} dit :</p>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-lg-10">
-										{{message.message}}
-									</div>
-								</div>
+								<span class="text-primary">Un {{message.from}} dit :</span> {{message.message}}
 								<hr>
 							</li>
 						</ul>
@@ -125,11 +146,13 @@
 				</div>
 				<div class="row">
 					<form ng-submit="sendMessage()">
-						<div class="form-group col-lg-8">
-							<input type="text" class="form-control" placeholder="Votre message..." ng-model="message" required />
-						</div>
-						<div class="form-group col-lg-4">
-							<input type="submit" class="btn btn-primary" value=">>" />
+						<div class="col-lg-offset-3 col-lg-6">
+							<div class="form-group col-lg-8">
+								<input type="text" class="form-control" placeholder="Votre message..." ng-model="message" required />
+							</div>
+							<div class="form-group col-lg-2">
+								<input type="submit" class="btn btn-default btn-flat" value=">>" />
+							</div>
 						</div>
 					</form>
 				</div>
