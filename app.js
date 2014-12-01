@@ -23,6 +23,25 @@ pokedex.sort(function(a, b){
 	return (parseInt(a.numero) < parseInt(b.numero)) ? -1 : 1;
 });
 
+pokedex = pokedex.map(function(pokemon){
+	pokemon.types = [];
+	pokemon.groupoeufs = [];
+	pokemon.capspes = [];
+
+	pokemon.types.push(pokemon.type1);
+	if(pokemon.type2) pokemon.types.push(pokemon.type2);
+
+	pokemon.groupoeufs.push(pokemon.groupoeuf1);
+	if(pokemon.groupoeuf2) pokemon.groupoeufs.push(pokemon.groupoeuf2);
+	if(pokemon.groupoeuf3) pokemon.groupoeufs.push(pokemon.groupoeuf3);
+
+	pokemon.capspes.push(pokemon.capspe1);
+	if(pokemon.capspe2) pokemon.capspes.push(pokemon.capspe2);
+	if(pokemon.capspe3) pokemon.capspes.push(pokemon.capspe3);
+
+	return pokemon;
+});
+
 //Nous sommes obligés de redéfinir la fonctions puisque quelques pokémons sont manquant et nous avons donc des trous dans le pokédex...
 pokedex.getPokemon = function(numero){
 	return pokedex.filter(function(pokemon){
@@ -59,7 +78,10 @@ app.get('/api/pokemons/', function(req, res){
 	var pokemons = pokedex.map(function(pokemon){
 		return {
 			"num" : pokemon.numéro,
-			"nom": pokemon.nom
+			"nom": pokemon.nom,
+			"taille": pokemon.taille,
+			"poids": pokemon.poids,
+			"espece": pokemon.espece
 		}
 	});
 	res.status(200).send(JSON.stringify(pokemons));
@@ -165,7 +187,7 @@ app.get('/api/compterendu', function(req, res){
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-	logger.info('[HttpServer] > Aucune route trouvée');
+	logger.info('[HttpServer] > Aucune route trouvée pour ' + req.url);
     var err = new Error('Not Found');
     err.status = 404;
     next(err);

@@ -1,3 +1,63 @@
 .vcenter {
 	vertical-align: middle;
 }
+
+.type-feu {
+	background-color: #f0802f;
+}
+
+.type-eau {
+	background-color: #6890f0;
+}
+
+.type-plante {
+	background-color: #bde4ab;
+}
+
+.type-poison {
+	background-color: #a040a0;
+}
+
+.type-insecte {
+	background-color: #a8b81f;
+}
+
+.type-vol {
+	background-color: #a890f0;
+}
+
+.type-normal {
+	background-color: #a8a878;
+}
+
+.type-electrique {
+	background-color: #f8d02f;
+}
+
+.type-sol {
+	background-color: #e0c068;
+}
+
+.type-combat {
+	background-color: #c02f27;
+}
+
+.type-psy {
+	background-color: #f85888;
+}
+
+.type-roche {
+	background-color: #b8a038;
+}
+
+.type-spectre {
+	background-color: #705898;
+}
+
+.type-dragon {
+	background-color: #6f37f8;
+}
+
+.type-glace {
+	background-color: #98d8d8;
+}

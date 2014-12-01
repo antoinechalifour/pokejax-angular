@@ -1,0 +1,16 @@
+{
+  "name": "Pokejax_v2",
+  "version": "1.0.0",
+  "authors": [
+    "antoinechalifour <antoine.chalifour@gmail.com>"
+  ],
+  "description": "TP Pokejax, version2",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "bootstrap-material-design": "~0.1.6",
+    "bootstrap": "~3.3.1"
+  }
+}
