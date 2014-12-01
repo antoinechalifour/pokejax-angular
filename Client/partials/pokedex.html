@@ -1,25 +1,27 @@
-<h1>Liste des pokémons</h1>
-<div class="row text-center" ng-show="loading">
-	<img src="assets/img/loader.gif" width="100px" height="100px">
-</div>
+<div class="container">
+	<h1>Liste des pokémons</h1>
+	<div class="row text-center" ng-show="loading">
+		<img src="assets/img/loader.gif" width="100px" height="100px">
+	</div>
 
-<div class="row" ng-hide="loading"> 
-	<div class="col-lg-4 col-md-3 col-sd-6" ng-repeat="pokemon in pokemons">
-		<div class="panel panel-default">
-		    <div class="panel-body">
-		    	<div class="col-lg-5">
-		        	<img height="100" width="100" ng-src="http://www.pokebip.com/pokemon/pokedex/images/sugimori/{{pokemon.num | num}}.png" />
-		        </div>
-		        <div class="col-lg-7">
-					<h4>{{pokemon.num}} - {{pokemon.nom}}</h4>
-					<ul class="list-unstyled">
-						<li>{{pokemon.taille}} m</li>
-						<li>{{pokemon.poids}} kg</li>
-						<li>Espèce {{pokemon.espece}}</li>
-					</ul>
-		        </div>
-		    </div>
-		    <div class="panel-footer"><a href="javascript:void(0)"ng-click="loadFiche(pokemon.num)">Consulter la fiche de {{pokemon.nom}}</a></div>
+	<div class="row" ng-hide="loading"> 
+		<div class="col-lg-4 col-md-3 col-sd-6" ng-repeat="pokemon in pokemons">
+			<div class="panel panel-default">
+			    <div class="panel-body">
+			    	<div class="col-lg-5">
+			        	<img height="100" width="100" ng-src="http://www.pokebip.com/pokemon/pokedex/images/sugimori/{{pokemon.num | num}}.png" />
+			        </div>
+			        <div class="col-lg-7">
+						<h4>{{pokemon.num}} - {{pokemon.nom}}</h4>
+						<ul class="list-unstyled">
+							<li>{{pokemon.taille}} m</li>
+							<li>{{pokemon.poids}} kg</li>
+							<li>Espèce {{pokemon.espece}}</li>
+						</ul>
+			        </div>
+			    </div>
+			    <div class="panel-footer"><a href="javascript:void(0)"ng-click="loadFiche(pokemon.num)">Consulter la fiche de {{pokemon.nom}}</a></div>
+			</div>
 		</div>
 	</div>
 </div>

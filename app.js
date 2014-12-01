@@ -207,7 +207,7 @@ var server = app.listen(app.get('port'), function() {
 ///////////////////////
 var WebSocketServer = require('ws').Server, 
 wss = new WebSocketServer({server: server, path: "/"}); 
-logger.info('[WebSocketServer] -- WebSocket serveur lancé sur le port 8080');
+logger.info('[WebSocketServer] -- WebSocket serveur lancé');
 Array.prototype.repeat = function(L){
 	while(L) this[--L]= [];
 	return this;

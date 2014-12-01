@@ -59,6 +59,10 @@ angular.module("Pokejax")
 	var ws = null;
 	var clientname = null;
 
+	$scope.checkType = function(type){
+		return ($scope.pokemon.types && type === $scope.pokemon.types[0]);
+	}
+
 	//////////////////////////////////
 	// Charger le pokemon courrant //
 	//////////////////////////////////
