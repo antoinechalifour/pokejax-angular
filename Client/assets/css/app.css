@@ -2,8 +2,15 @@
 	vertical-align: middle;
 }
 
-img {
-	max-width: 150px;
+img.img-pokedex {
+	width: 100px;
+	max-height: 100px;
+	height: auto;
+}
+
+img.img-pokemon {
+	height: 220px;
+	width: auto;
 }
 
 .pokemon-header {
