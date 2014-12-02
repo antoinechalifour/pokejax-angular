@@ -6,6 +6,7 @@
 	  <link href="bower_components/bootstrap-material-design/dist/css/material-wfont.min.css" rel="stylesheet">
 	  <link href="assets/css/chat.css" rel="stylesheet">
 	  <link href="assets/css/app.css" rel="stylesheet">
+	  <link href="assets/css/animations.css" rel="stylesheet">
     
     <style type="text/css">
 		body {
@@ -14,13 +15,15 @@
 		} 
     </style>
     <title>Pokejax</title>
+    <link rel="icon" type="image/ico" href="assets/img/favicon.ico" />
   </head>
   <body>
     	<menu></menu>
-		<div ng-view></div>
+		<div ng-view class="animation"></div>
 
 		<script src="bower_components/angular/angular.js"></script>
     	<script src="bower_components/angular-route/angular-route.js"></script>
+    	<script src="bower_components/angular-animate/angular-animate.js"></script>
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/bootstrap-material-design/dist/js/ripples.min.js"></script>
 		<script src="bower_components/bootstrap-material-design/dist/js/material.min.js"></script>

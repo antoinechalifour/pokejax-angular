@@ -15,41 +15,10 @@ var bodyParser = require('body-parser');
 var logger = require('winston');
 var fs = require('fs');
 var markdown = require("markdown-js");
-
 var natures = require('./natures.json')
+
 logger.info('[Configuration] > Import et tri du pokedex...');
-var pokedex = require('./pokedex.json');
-pokedex.sort(function(a, b){
-	return (parseInt(a.numero) < parseInt(b.numero)) ? -1 : 1;
-});
-
-pokedex = pokedex.map(function(pokemon){
-	pokemon.types = [];
-	pokemon.groupoeufs = [];
-	pokemon.capspes = [];
-
-	pokemon.types.push(pokemon.type1);
-	if(pokemon.type2) pokemon.types.push(pokemon.type2);
-
-	pokemon.groupoeufs.push(pokemon.groupoeuf1);
-	if(pokemon.groupoeuf2) pokemon.groupoeufs.push(pokemon.groupoeuf2);
-	if(pokemon.groupoeuf3) pokemon.groupoeufs.push(pokemon.groupoeuf3);
-
-	pokemon.capspes.push(pokemon.capspe1);
-	if(pokemon.capspe2) pokemon.capspes.push(pokemon.capspe2);
-	if(pokemon.capspe3) pokemon.capspes.push(pokemon.capspe3);
-
-	return pokemon;
-});
-
-//Nous sommes obligés de redéfinir la fonctions puisque quelques pokémons sont manquant et nous avons donc des trous dans le pokédex...
-pokedex.getPokemon = function(numero){
-	return pokedex.filter(function(pokemon){
-		if(parseInt(pokemon.numero) == numero) return true;
-		else
-			return false;
-	})[0];
-};
+var pokedex = require('./pokedex.js');
 
 ///////////////////////////////
 // Configuration  du serveur //
@@ -57,7 +26,6 @@ pokedex.getPokemon = function(numero){
 app.use(bodyParser.json());
 
 var client = '/Client';
-logger.info('[Configuration] > Utilisation du client ' + client);
 app.use('/', express.static(__dirname + client));
 
 ///////////////////////
@@ -196,7 +164,7 @@ app.use(function(req, res, next) {
 //Lancement du serveur
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function() {
-  logger.info('Serveur lancé. Si en local, adresse : http://localhost:' + server.address().port);
+  logger.info('[HttpServer] -- Serveur lancé ');
 });
 
 

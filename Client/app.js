@@ -2,7 +2,7 @@
 // Toutes l'application front-end est gérée dans ce fichier //
 //////////////////////////////////////////////////////////////
 
-angular.module("Pokejax", ['ngRoute'])
+angular.module("Pokejax", ['ngRoute', 'ngAnimate'])
 
 ///////////////////////////////////////////////////////////////
 //Configration des routes et des vues / controllers associés //
