@@ -4,8 +4,6 @@ angular.module("Pokejax")
 // Controller permettant la gestion du menu //
 //////////////////////////////////////////////
 .controller('menuCtrl', ['$scope', '$location', function($scope, $location){
-	console.log("Controlleur menu");
-
 	$scope.type = 'default';
 	$scope.tab = 1;
 	$scope.searchfield = "";
@@ -39,7 +37,6 @@ angular.module("Pokejax")
 // Controller permettant la gestion du pokedex //
 /////////////////////////////////////////////////
 .controller('pokedexCtrl', ['$scope', '$http', '$location', 'PokemonsFactory', function($scope, $http, $location, PokemonsFactory){
-	console.log('Pokedex controller');
 	$scope.loading = true;
 	PokemonsFactory.getPromise()
 	.then(function(){
@@ -59,7 +56,6 @@ angular.module("Pokejax")
 // Controller permettant la gestion de la fiche d'un pokémon //
 ///////////////////////////////////////////////////////////////
 .controller('pokemonCtrl', ['$scope', '$routeParams', '$http', '$rootScope', function($scope, $routeParams, $http, $rootScope){
-	console.log("Pokemon controller")
 	$scope.currentpokemon=parseInt($routeParams.numero);
 	$scope.loading = true;
 	$scope.pokemon = {};
@@ -85,16 +81,12 @@ angular.module("Pokejax")
 		$rootScope.$broadcast('typechanged', data.types[0]);
 	})
 	.error(function(data, status){
-		//$scope.loading = false;
-		console.log('ko');
 		$scope.loading = false;
 	})
 	.then(function(data, status){
 		////////////////////////////
 		// Gestion du web socket //
 		////////////////////////////
-		console.log("> Creation du websocket")
-		console.log("wss://" + location.host + "/");
 		var protocol = (location.protocol == 'https:') ? 'wss://' : 'ws://';
 		ws = new WebSocket(protocol + location.host + "/");
 
@@ -107,7 +99,6 @@ angular.module("Pokejax")
 				/////////////////////////////////////////////////////////////////
 				case 'init':
 					clientname = data.clientname;
-					console.log('> Envoi du pokemon suivi par ' + clientname);
 					ws.send(JSON.stringify({
 						type: 'init',
 						pokemon: $scope.currentpokemon
@@ -118,15 +109,21 @@ angular.module("Pokejax")
 				// Mise a jour du nb d'utilisateur regardant la fiche //
 				///////////////////////////////////////////////////////////
 				case 'majuser':
-					console.log("> Mis a jour du nombre d'utilisateurs " + data.newnb);
+					if(data.who != clientname){
+						var msgtodisplay = {}
+						msgtodisplay.fromuser = false;
+						var userstatus = (data.status == 'connected') ? 'connecté' : 'déconnecté';
+						msgtodisplay.msg = "Un " + data.who + " est maintenant " + userstatus + ".";
+						$scope.messages.push(msgtodisplay);
+					}
 					newnb = data.newnb;
 					$scope.nbusers = newnb;
 					$scope.$apply();
 					break;
 
 				case 'message':
-					console.log("> Nouveau message reçu : " + data.message);
-					$scope.messages.unshift(data)
+					data.fromuser = true;
+					$scope.messages.push(data)
 					$scope.$apply();
 					break
 				default: console.log(data);
@@ -148,7 +145,6 @@ angular.module("Pokejax")
 
 	$scope.$on('$destroy', function(){
 		$rootScope.$broadcast('typechanged', 'default');
-		console.log("Leaving room");
 		ws.send(JSON.stringify({
 			type: 'leaving',
 			pokemon: $scope.currentpokemon
@@ -186,7 +182,6 @@ angular.module("Pokejax")
 }])
 
 .controller('compterenduCtrl', ['$scope', '$sce', 'CompterenduFactory', function($scope, $sce, CompterenduFactory){
-	console.log("Controller du compte rendu");
 	$scope.compterendu = "";
 	CompterenduFactory.getPromise()
 	.then(function(data, status){

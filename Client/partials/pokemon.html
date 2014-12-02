@@ -135,10 +135,13 @@
 					}">
 				        <h3 class="panel-title">Discutez de {{pokemon.nom}}</h3>
 				    </div>
-				    <div class="panel-body chatbox">
+				    <div class="panel-body chatbox" scroll-glue>
 				        <ul class="list-unstyled">
 							<li ng-repeat="message in messages">
-								<span class="text-primary">Un {{message.from}} dit :</span> {{message.message}}
+								<span ng-if="message.fromuser">
+									<span class="text-primary">Un {{message.from}} dit :</span> {{message.message}}
+								</span>
+								<span ng-if="!message.fromuser" class="text-muted"> {{message.msg}}	</span>
 								<hr>
 							</li>
 						</ul>
@@ -151,7 +154,7 @@
 								<input type="text" class="form-control" placeholder="Votre message..." ng-model="message" required />
 							</div>
 							<div class="form-group col-lg-2">
-								<input type="submit" class="btn btn-default btn-flat" value=">>" />
+								<input type="submit" value=">>" />
 							</div>
 						</div>
 					</form>

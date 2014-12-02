@@ -205,6 +205,7 @@ function handleConnexion(ws){
 			again = true;
 		}
 	}
+	ws.clientname = clientname;
 	
 	//On envoie l'identifiant à la personne
 	//On lui demande le pokémon qu'elle consulte
@@ -242,7 +243,11 @@ function handleConnexion(ws){
 		});
 
 		chatrooms.forEach(function(chatroom){
-			majUser(chatroom);
+			majUser({
+				chatroom: chatroom,
+				who: ws.clientname,
+				status: 'disconnected'
+			});
 		});
 	});
 }
@@ -254,7 +259,11 @@ function handleInit(ws, data){
 	var chatroom = chatrooms[data.pokemon - 1];
 
 	chatroom.push(ws);
-	majUser(chatroom);
+	majUser({
+		chatroom: chatroom,
+		who: ws.clientname,
+		status: 'connected'
+	});
 }
 
 function handleMessage(data){
@@ -279,16 +288,23 @@ function handleLeaving(ws, data){
 	var i = chatrooms[data.pokemon - 1].indexOf(ws);
 	if(i >= 0) {
 		chatrooms[data.pokemon - 1].splice(i, 1);
-		majUser(chatrooms[data.pokemon - 1]);
+		majUser({
+			chatroom: chatrooms[data.pokemon - 1],
+			who: ws.clientname,
+			status: 'disconnected'
+		});
 	}
 }
 
-function majUser(chatroom){
+function majUser(infos){
+	chatroom = infos.chatroom;
 	chatroom.forEach(function(user){
 		try{
 			user.send(JSON.stringify({
 				type: 'majuser',
-				newnb: chatroom.length
+				newnb: chatroom.length,
+				who: infos.who,
+				status: infos.status
 			}));
 		}
 		catch(err){
